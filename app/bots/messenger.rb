@@ -24,7 +24,7 @@ def reply_not_saved(incoming, stored)
   stored.allow_removal!
   incoming.reply(text: 'Jag har redan glömt bort vad du sa :)')
 rescue => e
-  puts e.inspect
+  Rails.logger.info e.inspect
   incoming.reply(text: 'Något gick fel, försök gärna igen :( 2 ')
 end
 
@@ -37,7 +37,7 @@ def reply_thank_you(incoming, stored, classification)
   stored.allow_removal!
   incoming.reply(text: 'Tack för att du hjälper till och gör internet till en säkrare plats!')
 rescue => e
-  puts e.inspect
+  Rails.logger.info e.inspect
   incoming.reply(text: 'Något gick fel, försök gärna igen :( 3 ')
 end
 
@@ -69,6 +69,6 @@ def handle_text(incoming)
     ]
   )
 rescue => e
-  puts e.inspect
+  Rails.logger.info e.inspect
   incoming.reply(text: 'Något gick fel, försök gärna igen :( 4 ')
 end
