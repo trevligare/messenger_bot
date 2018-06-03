@@ -1,7 +1,7 @@
 default: &default
     adapter: postgresql
     encoding: unicode
-    pool: <%= ENV['DB_POOL'] || 2 %>
+    pool: <%= ENV["DB_POOL"] || ENV["MAX_THREADS"] || 5 %>
 
 development:
   <<: *default
@@ -21,9 +21,4 @@ test:
 
 production:
   <<: *default
-  url:  <%= ENV["DATABASE_URL"]%>
-  default: &default
-  schema_search_path: public
-  timeout: 5000
-  connect_timeout: 1
-  pool: <%= ENV["DB_POOL"] || ENV["MAX_THREADS"] || 5 %>
+  url:  <%= ENV["DATABASE_URL"] %>
