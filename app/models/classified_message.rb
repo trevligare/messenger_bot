@@ -1,0 +1,2 @@
+class ClassifiedMessage < ApplicationRecord
+end

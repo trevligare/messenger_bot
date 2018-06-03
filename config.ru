@@ -1,4 +1,5 @@
-require 'facebook/messenger'
-require_relative 'bot'
+# This file is used by Rack-based servers to start the application.
 
-run Facebook::Messenger::Server
+require_relative 'config/environment'
+
+run Rails.application
