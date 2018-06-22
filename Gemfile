@@ -11,6 +11,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # Specific
 gem 'facebook-messenger', '~> 1.0.0'
+gem 'httparty'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -1,4 +1,7 @@
 Rails.application.configure do
+  config.reporting_token = 'dfcab5cb-88ce-48b6-bda4-ff3c3c0bb5fa'
+  config.reporting_uri = 'http://localhost:3000'
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

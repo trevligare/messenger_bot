@@ -1,6 +1,6 @@
 namespace :classifications do
   desc "Transfers classified messages"
   task transfer: :environment do
-    Rails.logger.info "TASK classifications:transfer NOT IMPLEMENTED YET"
+    ClassificationTransferJob.new.perform
   end
 end

@@ -24,8 +24,9 @@ def reply_not_saved(incoming, stored)
   stored.allow_removal!
   incoming.reply(text: 'Jag har redan glömt bort vad du sa :)')
 rescue => e
-  Rails.logger.info e.inspect
-  incoming.reply(text: 'Något gick fel, försök gärna igen :( 2 ')
+  hash = SecureRandom.hex(3)
+  Rails.logger.info "Bot error 2, #{hash}: #{e.inspect}"
+  incoming.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 2] ')
 end
 
 def reply_thank_you(incoming, stored, classification)
@@ -37,8 +38,9 @@ def reply_thank_you(incoming, stored, classification)
   stored.allow_removal!
   incoming.reply(text: 'Tack för att du hjälper till och gör internet till en säkrare plats!')
 rescue => e
-  Rails.logger.info e.inspect
-  incoming.reply(text: 'Något gick fel, försök gärna igen :( 3 ')
+  hash = SecureRandom.hex(3)
+  Rails.logger.info "Bot error 3, #{hash}: #{e.inspect}"
+  incoming.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 3] ')
 end
 
 def handle_text(incoming)
@@ -69,6 +71,7 @@ def handle_text(incoming)
     ]
   )
 rescue => e
-  Rails.logger.info e.inspect
-  incoming.reply(text: 'Något gick fel, försök gärna igen :( 4 ')
+  hash = SecureRandom.hex(3)
+  Rails.logger.info "Bot error 4, #{hash}: #{e.inspect}"
+  incoming.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 4] ')
 end

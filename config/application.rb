@@ -19,6 +19,13 @@ Bundler.require(*Rails.groups)
 
 module MessengerBot
   class Application < Rails::Application
+    if Rails.env == 'production'
+      config.reporting_token = ENV.fetch('TREVLIGARE_API_TOKEN')
+      config.reporting_uri = ENV.fetch('TREVLIGARE_BASE_URI')
+    end
+
+
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
