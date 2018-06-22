@@ -15,7 +15,7 @@ class ClassificationTransferJob
     {
       token: Rails.application.config.reporting_token,
       reporter: message.classifier_id,
-      nice: message.classification == 'nothing' ? '0' : '1',
+      classification: message.classification,
       text: message.text
     }
 
