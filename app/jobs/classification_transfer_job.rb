@@ -5,6 +5,7 @@ class ClassificationTransferJob
     ClassifiedMessage.in_batches.each_record do |message|
       pp message.inspect
       success = submit(message)
+      pp success
       message.destroy if success
     end
   end
@@ -28,6 +29,7 @@ class ClassificationTransferJob
        body: prepare_params(message).to_json,
        headers: headers
     )
+    pp response.body
     response.code == 201
   end
 
