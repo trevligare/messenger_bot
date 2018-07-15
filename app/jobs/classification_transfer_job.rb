@@ -15,7 +15,7 @@ class ClassificationTransferJob
     {
       token: Rails.application.config.reporting_token,
       reporter: message.classifier_id,
-      classification: message.classification,
+      label: message.classification,
       text: message.text
     }
 
