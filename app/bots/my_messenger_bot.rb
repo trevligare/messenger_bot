@@ -1,17 +1,19 @@
 Facebook::Messenger::Bot.on :message do |message|
+  Rails.logger.info "Handling"
   MyMessengerBot.new(message)
 end
 
 class MyMessengerBot
   def initialize(message)
+    Rails.logger.info "initialized"
     @message = message
     @message.mark_seen
     @message.typing_on
 
     if @message.quick_reply
-      handle_quick_reply(message)
+      handle_quick_reply
     else
-      handle_text(message)
+      handle_text
     end
     message.typing_off
   end
