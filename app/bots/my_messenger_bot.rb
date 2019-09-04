@@ -1,59 +1,62 @@
-class MyMessengerBot
-  def constructor
-    Facebook::Messenger::Bot.on :message do |message|
-      message.mark_seen
-      message.typing_on
+Facebook::Messenger::Bot.on :message do |message|
+  MyMessengerBot.new(message)
+end
 
-      if message.quick_reply
-        handle_quick_reply(message)
-      else
-        handle_text(message)
-      end
-      message.typing_off
+class MyMessengerBot
+  def initialize(message)
+    @message = message
+    @message.mark_seen
+    @message.typing_on
+
+    if @message.quick_reply
+      handle_quick_reply(message)
+    else
+      handle_text(message)
     end
+    message.typing_off
   end
 
-  def handle_quick_reply(incoming)
-    classification, message_id = incoming.quick_reply.split(':', 2)
+  def handle_quick_reply(@message)
+    classification, message_id = @message.quick_reply.split(':', 2)
     stored = Message.find(message_id)
     if classification == 'nothing'
-      reply_not_saved(incoming, stored)
+      reply_not_saved(stored)
     else
-      reply_thank_you(incoming, stored, classification)
+      reply_thank_you(stored, classification)
     end
   end
 
-  def reply_not_saved(incoming, stored)
+  def reply_not_saved(stored)
     stored.allow_removal!
-    incoming.reply(text: 'Jag har redan glömt bort vad du sa :)')
+    @message.reply(text: 'Jag har redan glömt bort vad du sa :)')
   rescue => e
     hash = SecureRandom.hex(3)
     Rails.logger.info "Bot error 2, #{hash}: #{e.inspect}"
-    incoming.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 2] ')
+    @message.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 2] ')
   end
 
-  def reply_thank_you(incoming, stored, classification)
+  def reply_thank_you(stored, classification)
     ClassifiedMessage.create!(
       classifier_id: stored.sender_id,
       text: stored.text,
       classification: classification
     )
     stored.allow_removal!
-    incoming.reply(text: 'Tack för att du hjälper till och gör internet till en säkrare plats!')
+    @message.reply(text: 'Tack för att du hjälper till och gör internet till en säkrare plats!')
   rescue => e
     hash = SecureRandom.hex(3)
     Rails.logger.info "Bot error 3, #{hash}: #{e.inspect}"
-    incoming.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 3] ')
+    @message.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 3] ')
   end
 
-  def handle_text(incoming)
-    return if Message.find_by(mid: incoming.id)
+  def handle_text
+    return if Message.find_by(mid: @message.id)
     stored = Message.create!(
-      sender_id: incoming.sender['id'],
-      text: incoming.text,
-      mid: incoming.id
+      sender_id: @message.sender['id'],
+      text: @message.text,
+      mid: @message.id
     )
-    incoming.reply(
+    @message.reply(
       text: 'Hur skulle du klassificera meddelandet ovan?',
       quick_replies: [
         {
@@ -76,8 +79,6 @@ class MyMessengerBot
   rescue => e
     hash = SecureRandom.hex(3)
     Rails.logger.info "Bot error 4, #{hash}: #{e.inspect}"
-    incoming.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 4] ')
+    @message.reply(text: 'Något gick fel, försök gärna igen :( [Felkod: 4] ')
   end
 end
-
-MyMessengerBot.new
