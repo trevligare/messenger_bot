@@ -16,7 +16,7 @@ class MyMessengerBot
     message.typing_off
   end
 
-  def handle_quick_reply(@message)
+  def handle_quick_reply
     classification, message_id = @message.quick_reply.split(':', 2)
     stored = Message.find(message_id)
     if classification == 'nothing'
