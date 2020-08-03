@@ -10,7 +10,7 @@ gem 'puma', '~> 4.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 # Specific
-gem 'facebook-messenger', '~> 1.4.0'
+gem 'facebook-messenger', '~> 2.0.1'
 gem 'httparty'
 
 group :development, :test do
